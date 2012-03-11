@@ -28,4 +28,27 @@ public final class Comprehensions {
 			}
 		};
 	}
+	
+	public static <IN,OUT> Generator<OUT> generator(final Iterable<IN> iterable, final Mapping<IN,OUT> mapping, final Filter<IN> filter) {
+		return new Generator<OUT>() {
+			Iterator<IN> iterator = iterable.iterator();
+			private IN next;
+
+			@Override
+			public boolean hasNext() {
+				while (iterator.hasNext()) {
+					next = iterator.next();
+					if (filter.selects(next)) {
+						return true;
+					}
+				}
+				return false;
+			}
+
+			@Override
+			public OUT next() {
+				return mapping.apply(next);
+			}
+		};
+	}
 }
