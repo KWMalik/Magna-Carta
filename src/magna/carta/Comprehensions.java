@@ -4,7 +4,7 @@ import java.util.Iterator;
 
 public final class Comprehensions {
 
-	public <T> Generator<T> generator(final Iterable<T> iterable) {
+	public static <T> Generator<T> generator(final Iterable<T> iterable) {
 		return new Generator<T>() {
 			Iterator<T> iterator = iterable.iterator();
 
@@ -20,7 +20,7 @@ public final class Comprehensions {
 		};
 	}
 	
-	public <IN,OUT> Generator<OUT> generator(final Iterable<IN> iterable, final Mapping<IN,OUT> mapping) {
+	public static <IN,OUT> Generator<OUT> generator(final Iterable<IN> iterable, final Mapping<IN,OUT> mapping) {
 		return new Generator<OUT>() {
 			Iterator<IN> iterator = iterable.iterator();
 
