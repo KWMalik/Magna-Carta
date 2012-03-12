@@ -12,7 +12,7 @@ public abstract class Generator<T> implements Iterable<T>, Iterator<T> {
      * Called by {@link #iterator()}, meaning that this method will get called
      * automatically each time you pass this generator into a for loop.
      */
-    public abstract void init();
+    protected abstract void init();
     
     /**
      * Generates the next element.
