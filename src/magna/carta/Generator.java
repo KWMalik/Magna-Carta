@@ -20,9 +20,9 @@ public abstract class Generator<T> implements Iterable<T>, Iterator<T> {
      * Called by {@link #next()}.
      * 
      * @throws NoSuchElementException
-     *             if this generator has been exhausted.
+     *             if there is no next element.
      */
-    protected abstract T yield() throws NoSuchElementException;
+    protected abstract T yield();
     
     @Override
     public final Iterator<T> iterator() {

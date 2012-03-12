@@ -1,7 +1,17 @@
 package magna.carta;
 
+import java.util.*;
+
 public final class Comprehensions {
     private Comprehensions() {}
+    
+    public static <T, C extends Collection<T>> C collect(C collection,
+            Iterable<T> iterable) {
+        for (T elem : iterable) {
+            collection.add(elem);
+        }
+        return collection;
+    }
     
     public static <T> Generator<T> generate(Iterable<T> iterable) {
         return generate(iterable, new Identity<T>(), new AllPass<T>());
