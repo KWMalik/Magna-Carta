@@ -23,12 +23,14 @@ public final class Comprehensions {
     }
     
     public static final class Identity<T> implements Mapping<T, T> {
+        @Override
         public T apply(T input) {
             return input;
         }
     }
     
     public static final class AllPass<IN> implements Filter<IN> {
+        @Override
         public boolean selects(IN item) {
             return true;
         }

@@ -1,5 +1,7 @@
 package magna.carta;
 
+import java.util.*;
+
 public final class Generators {
     private Generators() {}
     
@@ -11,7 +13,7 @@ public final class Generators {
         private final int start;
         private final int stop;
         private final int step;
-        private int current;
+        private int next;
         
         public Range(int start, int stop, int step) {
             this.start = start;
@@ -21,17 +23,16 @@ public final class Generators {
         
         @Override
         public void init() {
-            current = start;
+            next = start - step;
         }
         
-        public boolean hasNext() {
-            return current + step < stop;
-        }
-        
-        public Integer next() {
-            Integer next = Integer.valueOf(current);
-            current += step;
-            return next;
+        @Override
+        public Integer yield() {
+            next += step;
+            if (next < stop) {
+                return next;
+            }
+            throw new NoSuchElementException();
         }
     }
 }
