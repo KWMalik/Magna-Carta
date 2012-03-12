@@ -1,10 +1,8 @@
 package magna.carta;
 
-import java.util.Iterator;
 
 public final class Comprehensions {
-
-    public static <T> Generator<T> generate(final Iterable<T> iterable) {
+    public static <T> Generator<T> generate(Iterable<T> iterable) {
         return generate(iterable, new Mapping<T, T>() {
             public T apply(T input) {
                 return input;
@@ -12,8 +10,8 @@ public final class Comprehensions {
         });
     }
 
-    public static <IN, OUT> Generator<OUT> generate(
-            final Iterable<IN> iterable, final Mapping<IN, OUT> mapping) {
+    public static <IN, OUT> Generator<OUT> generate(Iterable<IN> iterable,
+            Mapping<IN, OUT> mapping) {
         return generate(iterable, mapping, new Filter<IN>() {
             public boolean selects(IN item) {
                 return true;
@@ -21,26 +19,8 @@ public final class Comprehensions {
         });
     }
 
-    public static <IN, OUT> Generator<OUT> generate(
-            final Iterable<IN> iterable, final Mapping<IN, OUT> mapping,
-            final Filter<IN> filter) {
-        return new Generator<OUT>() {
-            Iterator<IN> iterator = iterable.iterator();
-            private IN next;
-
-            public boolean hasNext() {
-                while (iterator.hasNext()) {
-                    next = iterator.next();
-                    if (filter.selects(next)) {
-                        return true;
-                    }
-                }
-                return false;
-            }
-
-            public OUT next() {
-                return mapping.apply(next);
-            }
-        };
+    public static <IN, OUT> Generator<OUT> generate(Iterable<IN> iterable,
+            Mapping<IN, OUT> mapping, Filter<IN> filter) {
+        return new Comprehension<IN, OUT>(iterable.iterator(), mapping, filter);
     }
 }
