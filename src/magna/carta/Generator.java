@@ -1,9 +1,9 @@
 package magna.carta;
 
-import java.util.Iterator;
+import java.util.*;
 
 public abstract class Generator<T> implements Iterable<T>, Iterator<T> {
-
+    
     /**
      * Resets this generator to its initial state.
      * 
@@ -11,12 +11,12 @@ public abstract class Generator<T> implements Iterable<T>, Iterator<T> {
      * automatically each time you pass this generator into a for loop.
      */
     public abstract void init();
-
+    
     public final Iterator<T> iterator() {
         init();
         return this;
     }
-
+    
     public final void remove() {
         throw new UnsupportedOperationException();
     }

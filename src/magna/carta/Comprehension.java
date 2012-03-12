@@ -1,7 +1,6 @@
 package magna.carta;
 
-import java.util.Iterator;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 public class Comprehension<IN, OUT> extends Generator<OUT> {
     private final Iterable<IN> iterable;
@@ -10,24 +9,24 @@ public class Comprehension<IN, OUT> extends Generator<OUT> {
     private Iterator<IN> iterator;
     private IN nextInput;
     private boolean hasNext;
-
+    
     public Comprehension(Iterable<IN> iterable, Mapping<IN, OUT> mapping,
             Filter<IN> filter) {
         this.iterable = iterable;
         this.mapping = mapping;
         this.filter = filter;
     }
-
+    
     @Override
     public void init() {
         iterator = iterable.iterator();
         nextInput();
     }
-
+    
     public boolean hasNext() {
         return hasNext;
     }
-
+    
     public OUT next() {
         if (!hasNext) {
             throw new NoSuchElementException();
@@ -36,7 +35,7 @@ public class Comprehension<IN, OUT> extends Generator<OUT> {
         nextInput();
         return output;
     }
-
+    
     private void nextInput() {
         hasNext = false;
         while (iterator.hasNext()) {
