@@ -1,31 +1,51 @@
 package magna.carta;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class Comprehension<IN, OUT> extends Generator<OUT> {
-    private final Iterator<IN> iterator;
+    private final Iterable<IN> iterable;
     private final Mapping<IN, OUT> mapping;
     private final Filter<IN> filter;
-    private IN next;
+    private Iterator<IN> iterator;
+    private IN nextInput;
+    private boolean hasNext;
 
-    Comprehension(Iterator<IN> iterator, Mapping<IN, OUT> mapping,
+    public Comprehension(Iterable<IN> iterable, Mapping<IN, OUT> mapping,
             Filter<IN> filter) {
-        this.iterator = iterator;
+        this.iterable = iterable;
         this.mapping = mapping;
         this.filter = filter;
     }
 
+    @Override
+    public void init() {
+        iterator = iterable.iterator();
+        nextInput();
+    }
+
     public boolean hasNext() {
-        while (iterator.hasNext()) {
-            next = iterator.next();
-            if (filter.selects(next)) {
-                return true;
-            }
-        }
-        return false;
+        return hasNext;
     }
 
     public OUT next() {
-        return mapping.apply(next);
+        if (!hasNext) {
+            throw new NoSuchElementException();
+        }
+        OUT output = mapping.apply(nextInput);
+        nextInput();
+        return output;
+    }
+
+    private void nextInput() {
+        hasNext = false;
+        while (iterator.hasNext()) {
+            IN next = iterator.next();
+            if (filter.selects(next)) {
+                nextInput = next;
+                hasNext = true;
+                break;
+            }
+        }
     }
 }
