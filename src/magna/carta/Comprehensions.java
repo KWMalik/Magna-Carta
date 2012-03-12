@@ -1,6 +1,9 @@
 package magna.carta;
 
 public final class Comprehensions {
+    private Comprehensions() {
+    }
+
     public static <T> Generator<T> generate(Iterable<T> iterable) {
         return generate(iterable, new Identity<T>(), new AllPass<T>());
     }
