@@ -3,16 +3,16 @@ package magna.carta;
 import java.util.Iterator;
 
 public class Comprehension<IN, OUT> extends Generator<OUT> {
-    private final Filter<IN> filter;
-    private final Mapping<IN, OUT> mapping;
     private final Iterator<IN> iterator;
+    private final Mapping<IN, OUT> mapping;
+    private final Filter<IN> filter;
     private IN next;
 
     Comprehension(Iterator<IN> iterator, Mapping<IN, OUT> mapping,
             Filter<IN> filter) {
-        this.filter = filter;
-        this.mapping = mapping;
         this.iterator = iterator;
+        this.mapping = mapping;
+        this.filter = filter;
     }
 
     public boolean hasNext() {
