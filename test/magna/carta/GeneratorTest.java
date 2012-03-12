@@ -59,10 +59,13 @@ public class GeneratorTest {
         for (int i : fib) {
             builder.append(i).append(' ');
         }
+        
         assertEquals(builder.toString(),
                 "0 1 1 2 3 5 8 13 21 34 55 89 144 233 377 610 987 ");
-        assertArrayEquals(collect(new ArrayList<Integer>(), fib).toArray(),
-                new Integer[] { 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144,
-                        233, 377, 610, 987 });
+        
+        ArrayList<Integer> list = collect(new ArrayList<Integer>(), fib);
+        
+        assertArrayEquals(list.toArray(), new Integer[] { 0, 1, 1, 2, 3, 5, 8,
+                13, 21, 34, 55, 89, 144, 233, 377, 610, 987 });
     }
 }
