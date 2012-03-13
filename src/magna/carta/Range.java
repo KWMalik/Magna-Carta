@@ -3,9 +3,9 @@ package magna.carta;
 import java.util.*;
 
 public final class Range extends Generator<Integer> {
-    private int start;
+    private int start = 1;
     private int stop;
-    private int step;
+    private int step = 1;
     private int next;
     
     Range() {}
