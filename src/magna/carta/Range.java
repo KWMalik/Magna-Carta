@@ -3,10 +3,10 @@ package magna.carta;
 import java.util.*;
 
 public final class Range extends Generator<Integer> {
-    private int start = 1;
+    private int start = 0;
     private int stop;
     private int step = 1;
-    private int next;
+    private int nextInt;
     
     Range() {}
     
@@ -20,20 +20,19 @@ public final class Range extends Generator<Integer> {
     
     public Range step(int step) {
         this.step = step;
-        reset();
         return this;
     }
     
     @Override
     protected void init() {
-        next = start - step;
+        nextInt = start - step;
     }
     
     @Override
     protected Integer yield() {
-        next += step;
-        if (next < stop) {
-            return next;
+        nextInt += step;
+        if (nextInt < stop) {
+            return nextInt;
         }
         throw new NoSuchElementException();
     }
@@ -48,7 +47,6 @@ public final class Range extends Generator<Integer> {
         
         public Range to(int stop) {
             range.stop = stop;
-            range.reset();
             return range;
         }
     }

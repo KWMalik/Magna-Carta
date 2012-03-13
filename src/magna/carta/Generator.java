@@ -2,13 +2,9 @@ package magna.carta;
 
 import java.util.*;
 
-public abstract class Generator<E> implements Iterable<E>, Iterator<E> {
-    private E next;
+public abstract class Generator<E> implements Iterable<E> {
+    private E nextElem;
     private boolean hasNext;
-    
-    public Generator() {
-        reset();
-    }
     
     /**
      * Creates a new generator that returns the elements from the given
@@ -29,7 +25,7 @@ public abstract class Generator<E> implements Iterable<E>, Iterator<E> {
     /**
      * Set this generator's variables to their initial state.
      * 
-     * Called by {@link #Generator()} and {@link #reset()}.
+     * Called by {@link #iterator()}.
      */
     protected abstract void init();
     
@@ -43,43 +39,41 @@ public abstract class Generator<E> implements Iterable<E>, Iterator<E> {
      */
     protected abstract E yield();
     
-    public final Generator<E> reset() {
+    @Override
+    public final Iterator<E> iterator() {
         hasNext = true;
         init();
         readAhead();
-        return this;
-    }
-    
-    @Override
-    public final Iterator<E> iterator() {
-        return this;
-    }
-    
-    @Override
-    public final boolean hasNext() {
-        return hasNext;
-    }
-    
-    @Override
-    public final E next() {
-        if (!hasNext) {
-            throw new NoSuchElementException();
-        }
-        E element = next;
-        readAhead();
-        return element;
+        return new Iter();
     }
     
     private void readAhead() {
         try {
-            next = yield();
+            nextElem = yield();
         } catch (NoSuchElementException e) {
             hasNext = false;
         }
     }
     
-    @Override
-    public final void remove() {
-        throw new UnsupportedOperationException();
+    private final class Iter implements Iterator<E> {
+        @Override
+        public final boolean hasNext() {
+            return hasNext;
+        }
+        
+        @Override
+        public final E next() {
+            if (!hasNext) {
+                throw new NoSuchElementException();
+            }
+            E element = nextElem;
+            readAhead();
+            return element;
+        }
+        
+        @Override
+        public final void remove() {
+            throw new UnsupportedOperationException();
+        }
     }
 }

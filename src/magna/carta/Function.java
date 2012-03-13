@@ -1,5 +1,5 @@
 package magna.carta;
 
-public interface Function<IN, OUT> {
-    OUT apply(IN input);
+public interface Function<X, Y> {
+    Y apply(X x);
 }

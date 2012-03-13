@@ -10,6 +10,8 @@ class MapComprehension<IN, OUT> extends Comprehension<IN, OUT> {
     
     @Override
     protected final OUT yield() {
-        return function.apply(iterator.next());
+        IN input = iterator.next();
+        OUT output = function.apply(input);
+        return output;
     }
 }
