@@ -5,7 +5,11 @@ import java.util.*;
 public final class Comprehensions {
     private Comprehensions() {}
     
-    public static <T, C extends Collection<T>> C collect(C collection,
+    public static <T> Generator<T> from(Iterable<T> iterable) {
+        return new SelfComprehension<T>(iterable);
+    }
+    
+    public static <T, C extends Collection<T>> C to(C collection,
             Iterable<T> iterable) {
         for (T elem : iterable) {
             collection.add(elem);
@@ -13,36 +17,11 @@ public final class Comprehensions {
         return collection;
     }
     
-    public static <T> Generator<T> generate(Iterable<T> iterable) {
-        return generate(iterable, new Identity<T>(), new AllPass<T>());
-    }
-    
-    public static <IN, OUT> Generator<OUT> generate(Iterable<IN> iterable,
-            Mapping<IN, OUT> mapping) {
-        return generate(iterable, mapping, new AllPass<IN>());
-    }
-    
-    public static <T> Generator<T> generate(Iterable<T> iterable,
-            Filter<T> filter) {
-        return generate(iterable, new Identity<T>(), filter);
-    }
-    
-    public static <IN, OUT> Generator<OUT> generate(Iterable<IN> iterable,
-            Mapping<IN, OUT> mapping, Filter<IN> filter) {
-        return new Comprehension<IN, OUT>(iterable, mapping, filter);
-    }
-    
-    public static final class Identity<T> implements Mapping<T, T> {
-        @Override
-        public T apply(T input) {
-            return input;
+    public static <K, V, M extends Map<K, V>> M to(M map,
+            Iterable<Map.Entry<K, V>> iterable) {
+        for (Map.Entry<K, V> entry : iterable) {
+            map.put(entry.getKey(), entry.getValue());
         }
-    }
-    
-    public static final class AllPass<IN> implements Filter<IN> {
-        @Override
-        public boolean selects(IN item) {
-            return true;
-        }
+        return map;
     }
 }

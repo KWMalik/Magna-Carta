@@ -1,5 +1,5 @@
 package magna.carta;
 
-public interface Filter<T> {
+public interface Predicate<T> {
     boolean selects(T item);
 }

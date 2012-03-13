@@ -2,8 +2,8 @@ package magna.carta;
 
 import java.util.*;
 
-public abstract class Generator<T> implements Iterable<T>, Iterator<T> {
-    private T next;
+public abstract class Generator<E> implements Iterable<E>, Iterator<E> {
+    private E next;
     private boolean hasNext;
     
     /**
@@ -22,10 +22,18 @@ public abstract class Generator<T> implements Iterable<T>, Iterator<T> {
      * @throws NoSuchElementException
      *             if there is no next element.
      */
-    protected abstract T yield();
+    protected abstract E yield();
+    
+    public final <T> Generator<T> map(Function<E, T> f) {
+        return new MapComprehension<E, T>(this, f);
+    }
+    
+    public final Generator<E> filter(Predicate<E> p) {
+        return new FilterComprehension<E>(this, p);
+    }
     
     @Override
-    public final Iterator<T> iterator() {
+    public final Iterator<E> iterator() {
         hasNext = true;
         init();
         readAhead();
@@ -38,11 +46,11 @@ public abstract class Generator<T> implements Iterable<T>, Iterator<T> {
     }
     
     @Override
-    public final T next() {
+    public final E next() {
         if (!hasNext) {
             throw new NoSuchElementException();
         }
-        T element = next;
+        E element = next;
         readAhead();
         return element;
     }
