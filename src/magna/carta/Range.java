@@ -20,7 +20,7 @@ public final class Range extends Generator<Integer> {
     
     public Range step(int step) {
         this.step = step;
-        iterator();
+        reset();
         return this;
     }
     
@@ -41,14 +41,14 @@ public final class Range extends Generator<Integer> {
     public static final class Builder {
         private final Range range = new Range();
         
-        public Builder from(int start) {
+        private Builder from(int start) {
             range.start = start;
             return this;
         }
         
         public Range to(int stop) {
             range.stop = stop;
-            range.iterator();
+            range.reset();
             return range;
         }
     }

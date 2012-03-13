@@ -7,7 +7,7 @@ public abstract class Generator<E> implements Iterable<E>, Iterator<E> {
     private boolean hasNext;
     
     public Generator() {
-        iterator();
+        reset();
     }
     
     /**
@@ -18,11 +18,18 @@ public abstract class Generator<E> implements Iterable<E>, Iterator<E> {
         return new SelfComprehension<T>(iterable);
     }
     
+    public final <T> Generator<T> map(Function<E, T> f) {
+        return new MapComprehension<E, T>(this, f);
+    }
+    
+    public final Generator<E> filter(Predicate<E> p) {
+        return new FilterComprehension<E>(this, p);
+    }
+    
     /**
-     * Resets this generator to its initial state.
+     * Set this generator's variables to their initial state.
      * 
-     * Called by {@link #iterator()}, meaning that this method will get called
-     * automatically each time you pass this generator into a for loop.
+     * Called by {@link #Generator()} and {@link #reset()}.
      */
     protected abstract void init();
     
@@ -36,19 +43,15 @@ public abstract class Generator<E> implements Iterable<E>, Iterator<E> {
      */
     protected abstract E yield();
     
-    public final <T> Generator<T> map(Function<E, T> f) {
-        return new MapComprehension<E, T>(this, f);
-    }
-    
-    public final Generator<E> filter(Predicate<E> p) {
-        return new FilterComprehension<E>(this, p);
+    public final Generator<E> reset() {
+        hasNext = true;
+        init();
+        readAhead();
+        return this;
     }
     
     @Override
     public final Iterator<E> iterator() {
-        hasNext = true;
-        init();
-        readAhead();
         return this;
     }
     
