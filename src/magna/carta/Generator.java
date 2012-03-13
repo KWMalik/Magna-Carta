@@ -6,6 +6,10 @@ public abstract class Generator<E> implements Iterable<E>, Iterator<E> {
     private E next;
     private boolean hasNext;
     
+    public Generator() {
+        iterator();
+    }
+    
     /**
      * Resets this generator to its initial state.
      * 

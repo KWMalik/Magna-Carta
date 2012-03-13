@@ -2,8 +2,8 @@ package magna.carta;
 
 import java.util.*;
 
-public final class Comprehensions {
-    private Comprehensions() {}
+public final class MagnaCarta {
+    private MagnaCarta() {}
     
     public static <T> Generator<T> from(Iterable<T> iterable) {
         return new SelfComprehension<T>(iterable);
@@ -23,5 +23,9 @@ public final class Comprehensions {
             map.put(entry.getKey(), entry.getValue());
         }
         return map;
+    }
+    
+    public static Generator<Integer> range() {
+        return new Range();
     }
 }

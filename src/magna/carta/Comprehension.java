@@ -11,7 +11,7 @@ abstract class Comprehension<IN, OUT> extends Generator<OUT> {
     }
     
     @Override
-    protected void init() {
+    protected final void init() {
         iterator = iterable.iterator();
     }
 }

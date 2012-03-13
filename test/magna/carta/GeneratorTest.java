@@ -1,6 +1,6 @@
 package magna.carta;
 
-import static magna.carta.Comprehensions.*;
+import static magna.carta.MagnaCarta.*;
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
@@ -12,7 +12,7 @@ public class GeneratorTest {
     
     @Test
     public void counter() {
-        Iterator<Integer> counter = new Generator<Integer>() {
+        Generator<Integer> counter = new Generator<Integer>() {
             private int x;
             
             @Override
@@ -24,7 +24,7 @@ public class GeneratorTest {
             protected Integer yield() throws NoSuchElementException {
                 return x++;
             }
-        }.iterator();
+        };
         assertThat(counter.next(), is(2));
         assertThat(counter.next(), is(3));
         assertThat(counter.next(), is(4));
