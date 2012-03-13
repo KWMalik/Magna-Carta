@@ -11,6 +11,14 @@ public abstract class Generator<E> implements Iterable<E>, Iterator<E> {
     }
     
     /**
+     * Creates a new generator that returns the elements from the given
+     * iterable.
+     */
+    public static <T> Generator<T> from(Iterable<T> iterable) {
+        return new SelfComprehension<T>(iterable);
+    }
+    
+    /**
      * Resets this generator to its initial state.
      * 
      * Called by {@link #iterator()}, meaning that this method will get called

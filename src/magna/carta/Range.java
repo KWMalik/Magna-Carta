@@ -10,16 +10,12 @@ public final class Range extends Generator<Integer> {
     
     Range() {}
     
-    public Range from(int start) {
-        this.start = start;
-        iterator();
-        return this;
+    public static Builder from(int start) {
+        return new Builder().from(start);
     }
     
-    public Range to(int stop) {
-        this.stop = stop;
-        iterator();
-        return this;
+    public static Range to(int stop) {
+        return new Builder().to(stop);
     }
     
     public Range step(int step) {
@@ -40,5 +36,20 @@ public final class Range extends Generator<Integer> {
             return next;
         }
         throw new NoSuchElementException();
+    }
+    
+    public static final class Builder {
+        private final Range range = new Range();
+        
+        public Builder from(int start) {
+            range.start = start;
+            return this;
+        }
+        
+        public Range to(int stop) {
+            range.stop = stop;
+            range.iterator();
+            return range;
+        }
     }
 }

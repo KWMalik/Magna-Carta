@@ -5,10 +5,6 @@ import java.util.*;
 public final class MagnaCarta {
     private MagnaCarta() {}
     
-    public static <T> Generator<T> from(Iterable<T> iterable) {
-        return new SelfComprehension<T>(iterable);
-    }
-    
     public static <T, C extends Collection<T>> C to(C collection,
             Iterable<T> iterable) {
         for (T elem : iterable) {
@@ -23,9 +19,5 @@ public final class MagnaCarta {
             map.put(entry.getKey(), entry.getValue());
         }
         return map;
-    }
-    
-    public static Range range() {
-        return new Range();
     }
 }
