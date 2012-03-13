@@ -25,7 +25,7 @@ public final class MagnaCarta {
         return map;
     }
     
-    public static Generator<Integer> range() {
+    public static Range range() {
         return new Range();
     }
 }
